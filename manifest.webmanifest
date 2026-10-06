@@ -1,0 +1,12 @@
+{
+  "name": "JALNYAY AI",
+  "short_name": "JALNYAY AI",
+  "description": "Water complaint, priority intelligence, and citizen service platform.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f4f9fd",
+  "theme_color": "#063b73",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}

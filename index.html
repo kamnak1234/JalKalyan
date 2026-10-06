@@ -1,0 +1,4919 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#063b73">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon.svg">
+<title>JALNYAY AI — Water Complaint & Priority Intelligence</title>
+
+<style>
+:root{
+  --navy:#063b73;
+  --blue:#0787d9;
+  --sky:#eaf7ff;
+  --ink:#17324d;
+  --muted:#6b7f93;
+  --green:#18a76d;
+  --red:#ef4444;
+  --orange:#f59e0b;
+  --yellow:#ffd15c;
+  --line:#dceaf5;
+  --card:#fff;
+  --bg:#f4f9fd;
+  --shadow:0 8px 25px rgba(25,70,105,.08);
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:Inter,Segoe UI,Arial,sans-serif;
+  background:var(--bg);
+  color:var(--ink);
+}
+
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+
+.install-app{
+  position:fixed;
+  right:20px;
+  bottom:20px;
+  z-index:90;
+  display:none;
+  align-items:center;
+  gap:10px;
+  max-width:330px;
+  padding:12px 14px;
+  border:1px solid #b8ddf4;
+  border-radius:12px;
+  background:#fff;
+  box-shadow:0 14px 35px #063b7330;
+  color:#174c74;
+  font-size:12px;
+}
+.install-app.show{display:flex}.install-app button{border:0;border-radius:7px;padding:8px 10px;background:#0787d9;color:#fff;font-weight:800}.install-app .dismiss{background:#edf6fc;color:#45677f}
+
+.hidden{display:none!important}
+
+/* ================= LOGIN ================= */
+
+.auth-screen{
+  min-height:100vh;
+  background:
+    radial-gradient(circle at 15% 20%,#19a7ef33,transparent 28%),
+    radial-gradient(circle at 85% 80%,#16a66a22,transparent 25%),
+    linear-gradient(135deg,#052d58,#0787d9);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:25px;
+}
+
+.auth-wrapper{
+  width:min(1050px,100%);
+  display:grid;
+  grid-template-columns:1.05fr .95fr;
+  background:#fff;
+  border-radius:24px;
+  overflow:hidden;
+  box-shadow:0 30px 80px #001b3544;
+}
+
+.auth-left{
+  padding:55px;
+  color:#fff;
+  background:
+    linear-gradient(145deg,#063b73dd,#0787d9ee),
+    #063b73;
+  position:relative;
+  overflow:hidden;
+}
+
+.auth-left:before,
+.auth-left:after{
+  content:"";
+  position:absolute;
+  border-radius:50%;
+  background:#ffffff12;
+}
+
+.auth-left:before{
+  width:350px;
+  height:350px;
+  right:-150px;
+  top:-130px;
+}
+
+.auth-left:after{
+  width:300px;
+  height:300px;
+  left:-170px;
+  bottom:-130px;
+}
+
+.auth-brand{
+  display:flex;
+  align-items:center;
+  gap:13px;
+  position:relative;
+  z-index:2;
+}
+
+.auth-brand h1{
+  margin:0;
+  font-size:32px;
+}
+
+.auth-brand span{color:#5ee4a4}
+
+.auth-left h2{
+  font-size:36px;
+  line-height:1.15;
+  margin:70px 0 18px;
+  position:relative;
+  z-index:2;
+}
+
+.auth-left p{
+  color:#d9efff;
+  line-height:1.7;
+  position:relative;
+  z-index:2;
+}
+
+.auth-feature{
+  display:flex;
+  gap:12px;
+  margin-top:25px;
+  position:relative;
+  z-index:2;
+}
+
+.auth-feature-icon{
+  width:38px;
+  height:38px;
+  border-radius:10px;
+  display:grid;
+  place-items:center;
+  background:#ffffff1c;
+}
+
+.auth-feature b{display:block}
+.auth-feature small{color:#c8e7fa}
+
+.auth-right{
+  padding:45px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+
+.auth-tabs{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  background:#edf6fc;
+  padding:4px;
+  border-radius:10px;
+  margin-bottom:25px;
+}
+
+.auth-tabs button{
+  border:0;
+  background:transparent;
+  padding:11px;
+  border-radius:7px;
+  font-weight:800;
+  color:#58718a;
+}
+
+.auth-tabs button.active{
+  background:#fff;
+  color:var(--blue);
+  box-shadow:0 2px 8px #12345612;
+}
+
+.auth-form h2{
+  margin:0 0 7px;
+  color:#0b477e;
+}
+
+.auth-form>p{
+  margin:0 0 25px;
+  color:var(--muted);
+  font-size:13px;
+}
+
+.auth-field{
+  margin-bottom:15px;
+}
+
+.auth-field label{
+  display:block;
+  font-size:12px;
+  font-weight:800;
+  margin-bottom:6px;
+  color:#46647d;
+}
+
+.auth-field input{
+  width:100%;
+  padding:12px 13px;
+  border:1px solid #cfe1ee;
+  border-radius:8px;
+  outline:none;
+}
+
+.auth-field input:focus{
+  border-color:var(--blue);
+  box-shadow:0 0 0 3px #0787d91a;
+}
+
+.password-wrap{position:relative}
+.password-wrap input{padding-right:45px}
+
+.show-pass{
+  position:absolute;
+  right:8px;
+  top:7px;
+  border:0;
+  background:#eef6fb;
+  border-radius:6px;
+  width:34px;
+  height:34px;
+}
+
+.auth-submit{
+  width:100%;
+  border:0;
+  background:linear-gradient(135deg,#0787d9,#0566ac);
+  color:#fff;
+  padding:13px;
+  border-radius:8px;
+  font-weight:900;
+  margin-top:5px;
+}
+
+.demo-login{
+  margin-top:15px;
+  background:#e8f7ef;
+  color:#126c49;
+  border-radius:8px;
+  padding:11px;
+  font-size:12px;
+  text-align:center;
+}
+
+.auth-error{
+  display:none;
+  background:#ffe8e8;
+  color:#bd2929;
+  padding:10px;
+  border-radius:8px;
+  margin-bottom:14px;
+  font-size:12px;
+  font-weight:700;
+}
+
+.auth-error.show{display:block}
+
+/* ================= APP ================= */
+
+.top{
+  background:#fff;
+  border-bottom:1px solid var(--line);
+  padding:12px 22px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+  position:sticky;
+  top:0;
+  z-index:20;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.drop{
+  width:42px;
+  height:52px;
+  background:linear-gradient(160deg,#08a9ee,#0a73c4);
+  clip-path:polygon(50% 0,92% 68%,78% 88%,50% 100%,22% 88%,8% 68%);
+  position:relative;
+}
+
+.drop:after{
+  content:"";
+  position:absolute;
+  width:15px;
+  height:24px;
+  border-radius:50%;
+  background:#63d58b;
+  right:3px;
+  bottom:5px;
+  transform:rotate(35deg);
+}
+
+.brand h1{
+  margin:0;
+  color:#0b4a88;
+  font-size:27px;
+}
+
+.brand h1 span{color:#118dd3}
+
+.brand p{
+  margin:2px 0 0;
+  color:#66788a;
+  font-size:11px;
+}
+
+.header-actions{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.notification{
+  width:40px;
+  height:40px;
+  border:1px solid var(--line);
+  background:#fff;
+  border-radius:8px;
+  position:relative;
+}
+
+.notification .count{
+  position:absolute;
+  right:-3px;
+  top:-4px;
+  width:17px;
+  height:17px;
+  display:grid;
+  place-items:center;
+  background:#ef4444;
+  color:#fff;
+  font-size:9px;
+  border-radius:50%;
+  font-weight:900;
+}
+
+.user-menu{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  background:#eff8fe;
+  padding:5px 10px 5px 5px;
+  border-radius:25px;
+}
+
+.avatar{
+  width:32px;
+  height:32px;
+  background:linear-gradient(135deg,#0787d9,#16a66a);
+  color:#fff;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  font-weight:900;
+}
+
+.user-menu small{
+  font-weight:800;
+  color:#174c74;
+}
+
+.logout-btn{
+  border:0;
+  background:#fff0f0;
+  color:#c52d2d;
+  padding:8px 10px;
+  border-radius:7px;
+  font-weight:800;
+  font-size:11px;
+}
+
+.layout{
+  display:flex;
+  min-height:calc(100vh - 76px);
+}
+
+.side{
+  width:225px;
+  background:linear-gradient(180deg,#063a70,#052b53);
+  color:#fff;
+  padding:15px 10px;
+  flex:none;
+}
+
+.side .mini{
+  font-weight:900;
+  padding:10px 12px 16px;
+  border-bottom:1px solid #2b5a80;
+  margin-bottom:12px;
+}
+
+.nav button{
+  width:100%;
+  border:0;
+  background:transparent;
+  color:#dceeff;
+  text-align:left;
+  padding:12px 13px;
+  border-radius:8px;
+  margin:3px 0;
+  font-weight:700;
+  transition:.2s;
+}
+
+.nav button:hover,
+.nav button.active{
+  background:#0787d9;
+  color:#fff;
+  transform:translateX(2px);
+}
+
+.main{
+  padding:24px;
+  flex:1;
+  min-width:0;
+}
+
+.page{
+  display:none;
+  max-width:1400px;
+  margin:auto;
+}
+
+.page.active{
+  display:block;
+  animation:fadeIn .3s ease;
+}
+
+@keyframes fadeIn{
+  from{opacity:0;transform:translateY(6px)}
+  to{opacity:1;transform:none}
+}
+
+.page-title{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:15px;
+  margin-bottom:18px;
+}
+
+.page-title h2{
+  margin:0;
+  color:#083f77;
+  font-size:23px;
+}
+
+.page-title p{
+  margin:5px 0;
+  color:var(--muted);
+  font-size:13px;
+}
+
+/* ================= COMMAND CENTRE ================= */
+
+.command-hero{
+  position:relative;
+  overflow:hidden;
+  display:grid;
+  grid-template-columns:minmax(0,1.45fr) minmax(250px,.75fr);
+  gap:20px;
+  margin-bottom:18px;
+  padding:24px;
+  border-radius:16px;
+  color:#fff;
+  background:linear-gradient(118deg,#063b73 0%,#087fce 63%,#14a777 100%);
+  box-shadow:0 14px 30px rgba(7,78,132,.22);
+}
+
+.command-hero:after{
+  content:"";
+  position:absolute;
+  width:360px;
+  height:360px;
+  border:44px solid rgba(255,255,255,.09);
+  border-radius:50%;
+  right:-135px;
+  top:-185px;
+}
+
+.eyebrow{margin:0 0 7px;font-size:11px;letter-spacing:1.1px;font-weight:900;color:#c5efff}
+.command-hero h3{position:relative;z-index:1;margin:0;font-size:27px;line-height:1.2}
+.command-hero p{position:relative;z-index:1;margin:9px 0 18px;color:#e4f6ff;font-size:13px;line-height:1.55}
+.quick-actions{position:relative;z-index:1;display:flex;gap:9px;flex-wrap:wrap}
+.quick-actions .btn{padding:9px 12px;font-size:12px}
+.quick-actions .secondary{background:#fff;color:#086db1}
+.hero-status{position:relative;z-index:1;align-self:center;padding:17px;border:1px solid rgba(255,255,255,.24);border-radius:13px;background:rgba(3,42,78,.22);backdrop-filter:blur(7px)}
+.hero-status small{display:block;color:#d2efff;font-weight:700}
+.hero-status strong{display:block;margin:5px 0 10px;font-size:17px}
+.hero-status-row{display:flex;justify-content:space-between;padding-top:10px;border-top:1px solid rgba(255,255,255,.22);font-size:12px}
+.live-dot{display:inline-block;width:8px;height:8px;margin-right:5px;border-radius:50%;background:#5ee4a4;box-shadow:0 0 0 4px rgba(94,228,164,.16);animation:pulse 1.3s infinite}
+
+.action-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
+.action-tile{border:1px solid var(--line);border-radius:11px;padding:14px;background:#fff;box-shadow:var(--shadow);text-align:left;transition:.2s}
+.action-tile:hover{transform:translateY(-3px);border-color:#8acdf0;box-shadow:0 12px 24px rgba(20,102,156,.14)}
+.action-tile span{display:block;font-size:20px;margin-bottom:7px}.action-tile b{display:block;color:#164b78;font-size:13px}.action-tile small{color:var(--muted);font-size:11px}
+
+.service-card{position:relative;overflow:hidden;border:1px solid var(--line);border-radius:12px;padding:17px;background:linear-gradient(145deg,#fff,#f4fbff);transition:.2s}
+.service-card:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+.service-card h3{margin:10px 0 5px;color:#104a79;font-size:15px}.service-card p{margin:0 0 14px;color:var(--muted);font-size:12px;line-height:1.5}
+.service-icon{display:grid;place-items:center;width:40px;height:40px;border-radius:11px;background:#e1f4ff;font-size:21px}
+.service-card .btn{padding:8px 11px;font-size:11px}
+.water-tip{border-left:4px solid #16a66a;background:#edf9f3;padding:13px;border-radius:0 9px 9px 0;color:#246649;font-size:13px;line-height:1.55}
+.request-list{display:grid;gap:10px}.request-row{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:11px;border:1px solid #e5eef4;border-radius:9px;background:#fbfdff}.request-row small{display:block;color:var(--muted);margin-top:3px}
+
+/* CARDS */
+
+.cards{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:14px;
+}
+
+.card{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:11px;
+  padding:16px;
+  box-shadow:var(--shadow);
+}
+
+.metric{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.metric strong{
+  font-size:27px;
+  color:#103f6c;
+  display:block;
+}
+
+.metric small{color:var(--muted)}
+
+.trend{
+  font-size:11px;
+  color:var(--green);
+  font-weight:800;
+  margin-top:7px;
+}
+
+.grid2{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:15px;
+  margin-top:15px;
+}
+
+.grid3{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:15px;
+  margin-top:15px;
+}
+
+.section-title{
+  font-weight:900;
+  color:#164b78;
+  margin-bottom:12px;
+}
+
+/* CHARTS */
+
+.chart{
+  height:190px;
+  display:flex;
+  align-items:end;
+  gap:24px;
+  padding:18px 20px;
+  border-top:1px solid #edf4f9;
+}
+
+.barwrap{
+  flex:1;
+  text-align:center;
+}
+
+.bar{
+  width:54px;
+  max-width:100%;
+  margin:auto;
+  border-radius:7px 7px 0 0;
+  background:#0a8bd6;
+  transition:.4s;
+}
+
+.bar:hover{
+  filter:brightness(1.1);
+  transform:translateY(-4px);
+}
+
+.bar.critical{background:#ef4444}
+.bar.high{background:#f59e0b}
+.bar.medium{background:#ffd15c}
+.bar.low{background:#38b981}
+
+.barlabel{
+  font-size:11px;
+  color:var(--muted);
+  margin-top:7px;
+}
+
+/* DONUT */
+
+.donut{
+  width:150px;
+  height:150px;
+  border-radius:50%;
+  background:conic-gradient(
+    #0b91db 0 37%,
+    #ffad2e 37% 58%,
+    #68a9e8 58% 76%,
+    #8c6fe8 76% 89%,
+    #7b70e8 89% 100%
+  );
+  position:relative;
+  margin:5px auto;
+}
+
+.donut:after{
+  content:"24";
+  position:absolute;
+  inset:27px;
+  background:#fff;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  font-size:28px;
+  font-weight:900;
+  color:#123f69;
+}
+
+.legend{
+  display:grid;
+  gap:7px;
+  font-size:12px;
+}
+
+.legend span{
+  display:flex;
+  justify-content:space-between;
+}
+
+.dot{
+  display:inline-block;
+  width:9px;
+  height:9px;
+  border-radius:50%;
+  margin-right:7px;
+}
+
+/* TABLE */
+
+.tablewrap{overflow:auto}
+
+.table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:12px;
+}
+
+.table th,
+.table td{
+  padding:10px 8px;
+  border-bottom:1px solid #edf3f7;
+  text-align:left;
+  white-space:nowrap;
+}
+
+.table th{
+  color:#50708c;
+  background:#f7fbfe;
+}
+
+.table tr:hover td{
+  background:#f8fcff;
+}
+
+.badge{
+  padding:4px 9px;
+  border-radius:20px;
+  font-size:10px;
+  font-weight:900;
+  display:inline-block;
+}
+
+.badge.critical{
+  background:#ffe5e5;
+  color:#d52323;
+}
+
+.badge.high{
+  background:#fff0d6;
+  color:#a96600;
+}
+
+.badge.medium{
+  background:#fff8cc;
+  color:#9b7800;
+}
+
+.badge.low{
+  background:#ddf7e9;
+  color:#138052;
+}
+
+/* BUTTONS */
+
+.btn{
+  border:0;
+  border-radius:7px;
+  padding:10px 15px;
+  font-weight:900;
+}
+
+.primary{
+  background:#0787d9;
+  color:#fff;
+}
+
+.primary:hover{background:#056fae}
+
+.secondary{
+  background:#eef7fd;
+  color:#125181;
+}
+
+.success{
+  background:#16a66a;
+  color:#fff;
+}
+
+.danger{
+  background:#ef4444;
+  color:#fff;
+}
+
+/* FORMS */
+
+.formgrid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+}
+
+.field label{
+  display:block;
+  font-size:12px;
+  font-weight:800;
+  color:#4d6b84;
+  margin-bottom:6px;
+}
+
+.field input,
+.field select,
+.field textarea{
+  width:100%;
+  border:1px solid #cfe1ee;
+  border-radius:7px;
+  padding:10px;
+  background:#fff;
+  outline:none;
+}
+
+.field textarea{
+  min-height:105px;
+  resize:vertical;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus{
+  border-color:#0787d9;
+  box-shadow:0 0 0 3px #0787d91a;
+}
+
+.full{grid-column:1/-1}
+
+.actions{
+  display:flex;
+  gap:10px;
+  justify-content:flex-end;
+  margin-top:16px;
+  flex-wrap:wrap;
+}
+
+/* NOTICE */
+
+.notice{
+  padding:12px;
+  border-radius:8px;
+  background:#e8f9f0;
+  color:#126b49;
+  font-size:13px;
+  font-weight:800;
+  margin-bottom:15px;
+}
+
+.warning{
+  background:#fff8e7;
+  color:#8a6100;
+}
+
+/* PRIORITY */
+
+.factor{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin:11px 0;
+  font-size:12px;
+}
+
+.factor b{width:125px}
+
+.track{
+  height:8px;
+  background:#e6eef5;
+  border-radius:9px;
+  flex:1;
+  overflow:hidden;
+}
+
+.fill{
+  height:100%;
+  background:#168ed2;
+  border-radius:9px;
+}
+
+.score{
+  font-size:32px;
+  font-weight:900;
+  color:#e33636;
+}
+
+/* MODAL */
+
+.modal{
+  position:fixed;
+  inset:0;
+  background:#082d4b99;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  z-index:50;
+}
+
+.modal.open{display:flex}
+
+.modalbox{
+  background:#fff;
+  border-radius:12px;
+  width:min(900px,100%);
+  max-height:90vh;
+  overflow:auto;
+  padding:22px;
+  box-shadow:0 20px 60px #0003;
+}
+
+.modalhead{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.close{
+  border:0;
+  background:#eef5fa;
+  border-radius:50%;
+  width:34px;
+  height:34px;
+  font-size:20px;
+}
+
+/* MAP */
+
+.map{
+  height:240px;
+  border-radius:10px;
+  background:
+    linear-gradient(25deg,transparent 47%,#ffffffaa 48%,#ffffffaa 51%,transparent 52%),
+    linear-gradient(155deg,transparent 44%,#ffffff99 45%,#ffffff99 48%,transparent 49%),
+    linear-gradient(90deg,#d8edf1 1px,transparent 1px),
+    linear-gradient(#d8edf1 1px,transparent 1px),
+    #dff1dc;
+  background-size:auto,auto,45px 45px,45px 45px;
+  position:relative;
+  overflow:hidden;
+}
+
+.road{
+  position:absolute;
+  height:18px;
+  background:#fff;
+  transform:rotate(-20deg);
+  left:-10%;
+  right:-10%;
+  top:80px;
+  box-shadow:0 25px #ffffffaa;
+}
+
+.pin{
+  position:absolute;
+  width:16px;
+  height:16px;
+  border-radius:50% 50% 50% 0;
+  transform:rotate(-45deg);
+  background:#ef4444;
+}
+
+.pin:after{
+  content:"";
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:#fff;
+  position:absolute;
+  left:5px;
+  top:5px;
+}
+
+/* GPS */
+
+.gpsgrid{
+  display:grid;
+  grid-template-columns:1.25fr .75fr;
+  gap:15px;
+  margin-top:15px;
+}
+
+.gpsmap{
+  height:390px;
+  border-radius:12px;
+  position:relative;
+  overflow:hidden;
+  background:
+    linear-gradient(25deg,transparent 47%,#ffffffaa 48%,#ffffffaa 51%,transparent 52%),
+    linear-gradient(155deg,transparent 44%,#ffffff99 45%,#ffffff99 48%,transparent 49%),
+    linear-gradient(90deg,#d8edf1 1px,transparent 1px),
+    linear-gradient(#d8edf1 1px,transparent 1px),
+    #dff1dc;
+  background-size:auto,auto,45px 45px,45px 45px;
+}
+
+.gpsroad{
+  position:absolute;
+  background:#fff;
+  box-shadow:0 0 0 1px #cbdde5;
+  height:20px;
+  transform:rotate(-18deg);
+  left:-10%;
+  right:-10%;
+  top:48%;
+}
+
+.gpsroad.r2{
+  transform:rotate(25deg);
+  top:64%;
+}
+
+.gpsroad.r3{
+  transform:rotate(82deg);
+  top:15%;
+  left:42%;
+  width:18%;
+  height:90%;
+}
+
+.maplabel{
+  position:absolute;
+  background:#ffffffdd;
+  padding:4px 7px;
+  border-radius:5px;
+  font-size:10px;
+  font-weight:900;
+  color:#345b72;
+  box-shadow:0 2px 6px #0001;
+}
+
+.tanker{
+  position:absolute;
+  width:42px;
+  height:28px;
+  background:#0a79bd;
+  border-radius:7px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#fff;
+  font-size:18px;
+  box-shadow:0 5px 12px #1235;
+  transition:left 1s linear,top 1s linear;
+  z-index:5;
+}
+
+.tanker:after{
+  content:"";
+  position:absolute;
+  width:7px;
+  height:7px;
+  background:#17324d;
+  border-radius:50%;
+  bottom:-4px;
+  left:7px;
+  box-shadow:22px 0 #17324d;
+}
+
+.gpsdot{
+  position:absolute;
+  width:14px;
+  height:14px;
+  border-radius:50%;
+  background:#ef4444;
+  border:3px solid #fff;
+  box-shadow:0 0 0 5px #ef444433;
+  z-index:4;
+}
+
+.gpsdot.selected{
+  background:#16a66a;
+  box-shadow:0 0 0 7px #16a66a33;
+}
+
+.livepill{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:5px 9px;
+  border-radius:20px;
+  background:#e6f8ef;
+  color:#13744e;
+  font-size:11px;
+  font-weight:900;
+}
+
+.livepill i{
+  width:7px;
+  height:7px;
+  background:#16a66a;
+  border-radius:50%;
+  animation:pulse 1.3s infinite;
+}
+
+@keyframes pulse{
+  50%{opacity:.35}
+}
+
+.tankerrow{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding:11px 0;
+  border-bottom:1px solid #edf3f7;
+}
+
+.tankerrow:last-child{border-bottom:0}
+
+.progress{
+  height:9px;
+  background:#e8f0f5;
+  border-radius:10px;
+  overflow:hidden;
+}
+
+.progress>div{
+  height:100%;
+  background:#0787d9;
+  border-radius:10px;
+  transition:width .5s;
+}
+
+/* SEARCH */
+
+.searchbar{
+  display:flex;
+  gap:8px;
+  margin-bottom:15px;
+}
+
+.searchbar input,
+.searchbar select{
+  border:1px solid #cfe1ee;
+  padding:10px;
+  border-radius:7px;
+  outline:none;
+  background:#fff;
+}
+
+.searchbar input{
+  flex:1;
+}
+
+/* ACTIVITY */
+
+.activity{
+  display:grid;
+  gap:12px;
+}
+
+.activity-item{
+  display:flex;
+  gap:10px;
+  padding:10px 0;
+  border-bottom:1px solid #edf3f7;
+}
+
+.activity-icon{
+  width:34px;
+  height:34px;
+  border-radius:8px;
+  display:grid;
+  place-items:center;
+  background:#eaf7ff;
+}
+
+.activity-item small{
+  color:var(--muted);
+}
+
+/* TOAST */
+
+.toast{
+  position:fixed;
+  right:20px;
+  bottom:20px;
+  background:#0a3d69;
+  color:#fff;
+  padding:13px 17px;
+  border-radius:8px;
+  box-shadow:0 8px 25px #0003;
+  display:none;
+  z-index:80;
+  max-width:350px;
+}
+
+.toast.show{
+  display:block;
+  animation:toastIn .25s ease;
+}
+
+@keyframes toastIn{
+  from{transform:translateY(20px);opacity:0}
+  to{transform:none;opacity:1}
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1000px){
+  .auth-wrapper{grid-template-columns:1fr}
+  .auth-left{display:none}
+  .gpsgrid{grid-template-columns:1fr}
+}
+
+@media(max-width:900px){
+  .side{width:72px}
+  .side .mini{
+    font-size:0;
+    text-align:center;
+  }
+
+  .nav button{
+    font-size:0;
+    text-align:center;
+  }
+
+  .nav button:before{
+    content:"●";
+    font-size:13px;
+  }
+
+  .cards{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .grid2,.grid3{
+    grid-template-columns:1fr;
+  }
+
+  .main{padding:15px}
+
+  .top{padding:10px 14px}
+
+  .brand h1{font-size:22px}
+
+  .brand p{display:none}
+
+  .gpsmap{height:300px}
+  .command-hero{grid-template-columns:1fr}
+}
+
+@media(max-width:600px){
+  .cards{grid-template-columns:1fr}
+  .formgrid{grid-template-columns:1fr}
+  .full{grid-column:auto}
+  .header-actions .user-menu small{display:none}
+  .auth-right{padding:28px 20px}
+  .command-hero{padding:20px}.command-hero h3{font-size:23px}.action-strip{grid-template-columns:1fr}
+}
+</style>
+</head>
+
+<body>
+
+<!-- =========================================================
+     AUTH SCREEN
+========================================================= -->
+
+<div id="authScreen" class="auth-screen">
+
+  <div class="auth-wrapper">
+
+    <div class="auth-left">
+
+      <div class="auth-brand">
+        <div class="drop"></div>
+        <div>
+          <h1>JALNYAY <span>AI</span></h1>
+          <small>Water Intelligence Platform</small>
+        </div>
+      </div>
+
+      <h2>Smarter water allocation.<br>Faster complaint response.</h2>
+
+      <p>
+        A citizen-first platform that uses intelligent priority scoring
+        to identify urgent water problems and support faster response.
+      </p>
+
+      <div class="auth-feature">
+        <div class="auth-feature-icon">💧</div>
+        <div>
+          <b>Smart Complaint Intelligence</b>
+          <small>AI-style priority scoring</small>
+        </div>
+      </div>
+
+      <div class="auth-feature">
+        <div class="auth-feature-icon">🚚</div>
+        <div>
+          <b>GPS Tanker Tracking</b>
+          <small>Smart dispatch and ETA</small>
+        </div>
+      </div>
+
+      <div class="auth-feature">
+        <div class="auth-feature-icon">📊</div>
+        <div>
+          <b>Administrative Insights</b>
+          <small>Real-time locality intelligence</small>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="auth-right">
+
+      <div class="auth-tabs">
+        <button id="loginTab" class="active" onclick="switchAuth('login')">
+          Sign In
+        </button>
+        <button id="signupTab" onclick="switchAuth('signup')">
+          Create Account
+        </button>
+      </div>
+
+      <div id="authError" class="auth-error"></div>
+
+      <!-- LOGIN -->
+
+      <form id="loginForm" class="auth-form" onsubmit="login(event)">
+
+        <h2>Welcome back 👋</h2>
+        <p>Sign in to access your JALNYAY AI dashboard.</p>
+
+        <div class="auth-field">
+          <label>Email / User ID</label>
+          <input id="loginEmail" type="email"
+                 placeholder="Enter your email"
+                 value="saniyak@gmail.com"
+                 required>
+        </div>
+
+        <div class="auth-field">
+          <label>Password</label>
+
+          <div class="password-wrap">
+            <input id="loginPassword"
+                   type="password"
+                   placeholder="Enter password"
+                   value="1234"
+                   required>
+
+            <button type="button"
+                    class="show-pass"
+                    onclick="togglePassword('loginPassword',this)">
+              👁
+            </button>
+          </div>
+        </div>
+
+        <button class="auth-submit">
+          Sign In →
+        </button>
+
+        <div class="demo-login">
+          Demo account: <b>saniyak@gmail.com</b> / <b>1234</b>
+        </div>
+
+      </form>
+
+      <!-- SIGNUP -->
+
+      <form id="signupForm"
+            class="auth-form hidden"
+            onsubmit="signup(event)">
+
+        <h2>Create your account 🚀</h2>
+        <p>Register once and use the same account for future login.</p>
+
+        <div class="auth-field">
+          <label>Full Name</label>
+          <input id="signupName"
+                 type="text"
+                 placeholder="Enter your full name"
+                 required>
+        </div>
+
+        <div class="auth-field">
+          <label>Email / User ID</label>
+          <input id="signupEmail"
+                 type="email"
+                 placeholder="Enter your email"
+                 required>
+        </div>
+
+        <div class="auth-field">
+          <label>Password</label>
+
+          <div class="password-wrap">
+            <input id="signupPassword"
+                   type="password"
+                   placeholder="Create password"
+                   minlength="4"
+                   required>
+
+            <button type="button"
+                    class="show-pass"
+                    onclick="togglePassword('signupPassword',this)">
+              👁
+            </button>
+          </div>
+        </div>
+
+        <div class="auth-field">
+          <label>Confirm Password</label>
+          <input id="signupConfirm"
+                 type="password"
+                 placeholder="Confirm password"
+                 minlength="4"
+                 required>
+        </div>
+
+        <button class="auth-submit">
+          Create Account →
+        </button>
+
+      </form>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- =========================================================
+     MAIN APP
+========================================================= -->
+
+<div id="app" class="hidden">
+
+<header class="top">
+
+  <div class="brand">
+
+    <div class="drop"></div>
+
+    <div>
+      <h1>JALNYAY <span>AI</span></h1>
+      <p>Smarter water allocation. Faster complaint response. Fairer access.</p>
+    </div>
+
+  </div>
+
+  <div class="header-actions">
+
+    <button class="notification"
+            onclick="showNotifications()">
+      🔔
+      <span class="count" id="notificationCount">3</span>
+    </button>
+
+    <div class="user-menu">
+
+      <div class="avatar" id="userAvatar">S</div>
+
+      <small id="headerUser">Saniya</small>
+
+    </div>
+
+    <button class="logout-btn"
+            onclick="logout()">
+      Logout
+    </button>
+
+  </div>
+
+</header>
+
+
+<div class="layout">
+
+<aside class="side">
+
+  <div class="mini">💧 JALNYAY AI</div>
+
+  <div class="nav">
+
+    <button class="active" data-page="overview">
+      ⌂ &nbsp; Overview
+    </button>
+
+    <button data-page="report">
+      ▣ &nbsp; Report a Problem
+    </button>
+
+    <button data-page="complaints">
+      ☷ &nbsp; My Complaints
+    </button>
+
+    <button data-page="admin">
+      ▦ &nbsp; Admin Dashboard
+    </button>
+
+    <button data-page="areas">
+      ⌖ &nbsp; Priority Areas
+    </button>
+
+    <button data-page="tanker">
+      🚚 &nbsp; GPS Tankers
+    </button>
+
+    <button data-page="activity">
+      ⚡ &nbsp; Activity
+    </button>
+
+    <button data-page="services">
+      ✦ &nbsp; Service Hub
+    </button>
+
+    <button data-page="settings">
+      ⚙ &nbsp; Settings
+    </button>
+
+  </div>
+
+</aside>
+
+
+<main class="main">
+
+<!-- =========================================================
+     OVERVIEW
+========================================================= -->
+
+<section id="overview" class="page active">
+
+  <div class="command-hero">
+    <div>
+      <div class="eyebrow">JALNYAY OPERATIONS CENTRE</div>
+      <h3 id="heroGreeting">Good day. Your water network is in focus.</h3>
+      <p>See what needs attention first, move a field team quickly, and keep communities informed from one place.</p>
+      <div class="quick-actions">
+        <button class="btn secondary" onclick="showPage('report')">＋ New complaint</button>
+        <button class="btn success" onclick="dispatchNextTanker();showPage('tanker')">🚚 Dispatch tanker</button>
+        <button class="btn" style="background:#ffffff20;color:#fff;border:1px solid #ffffff55" onclick="showPage('complaints')">Review queue →</button>
+      </div>
+    </div>
+    <div class="hero-status">
+      <small><span class="live-dot"></span>LIVE OPERATIONS</small>
+      <strong id="heroPriority">Loading priority case…</strong>
+      <div class="hero-status-row"><span>Next response</span><b id="heroEta">Updating…</b></div>
+    </div>
+  </div>
+
+  <div class="page-title">
+
+    <div>
+      <h2>Overview Dashboard</h2>
+      <p id="welcomeText">
+        Welcome to your JALNYAY AI dashboard.
+      </p>
+    </div>
+
+    <button class="btn primary"
+            onclick="showPage('report')">
+      + Report Problem
+    </button>
+
+  </div>
+
+  <div class="action-strip">
+    <button class="action-tile" onclick="showPage('complaints')"><span>🔎</span><b>Explore complaints</b><small>Search, filter and review every report</small></button>
+    <button class="action-tile" onclick="showPage('areas')"><span>📍</span><b>View priority areas</b><small>Identify localities needing support</small></button>
+    <button class="action-tile" onclick="exportCSV()"><span>📥</span><b>Download a report</b><small>Export the latest complaint data</small></button>
+  </div>
+
+
+  <div class="cards">
+
+    <div class="card">
+
+      <div class="metric">
+
+        <div>
+          <small>Total Complaints</small>
+          <strong id="mTotal">24</strong>
+        </div>
+
+        <span>💧</span>
+
+      </div>
+
+      <div class="trend">↑ Live database</div>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="metric">
+
+        <div>
+          <small>Critical Cases</small>
+          <strong id="mCritical">7</strong>
+        </div>
+
+        <span>🔴</span>
+
+      </div>
+
+      <div class="trend">Needs immediate action</div>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="metric">
+
+        <div>
+          <small>Affected Localities</small>
+          <strong id="mAreas">8</strong>
+        </div>
+
+        <span>📍</span>
+
+      </div>
+
+      <div class="trend">Area intelligence</div>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="metric">
+
+        <div>
+          <small>Avg. Priority Score</small>
+          <strong id="mAvg">62.5</strong>
+        </div>
+
+        <span>✦</span>
+
+      </div>
+
+      <div class="trend">AI priority engine</div>
+
+    </div>
+
+  </div>
+
+
+  <div class="grid2">
+
+    <div class="card">
+
+      <div class="section-title">
+        Complaint Categories
+      </div>
+
+      <div style="display:grid;grid-template-columns:190px 1fr;align-items:center">
+
+        <div class="donut"></div>
+
+        <div class="legend">
+
+          <span>
+            <i>
+              <i class="dot" style="background:#0b91db"></i>
+              No Water
+            </i>
+            <b>37%</b>
+          </span>
+
+          <span>
+            <i>
+              <i class="dot" style="background:#ffad2e"></i>
+              Low Pressure
+            </i>
+            <b>21%</b>
+          </span>
+
+          <span>
+            <i>
+              <i class="dot" style="background:#68a9e8"></i>
+              Contamination
+            </i>
+            <b>17%</b>
+          </span>
+
+          <span>
+            <i>
+              <i class="dot" style="background:#8c6fe8"></i>
+              Leakage
+            </i>
+            <b>13%</b>
+          </span>
+
+          <span>
+            <i>
+              <i class="dot" style="background:#7b70e8"></i>
+              General
+            </i>
+            <b>12%</b>
+          </span>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="section-title">
+        Priority Level Distribution
+      </div>
+
+      <div class="chart">
+
+        <div class="barwrap">
+          <div class="bar critical" style="height:90px"></div>
+          <b>7</b>
+          <div class="barlabel">Critical</div>
+        </div>
+
+        <div class="barwrap">
+          <div class="bar high" style="height:120px"></div>
+          <b>9</b>
+          <div class="barlabel">High</div>
+        </div>
+
+        <div class="barwrap">
+          <div class="bar medium" style="height:78px"></div>
+          <b>6</b>
+          <div class="barlabel">Medium</div>
+        </div>
+
+        <div class="barwrap">
+          <div class="bar low" style="height:32px"></div>
+          <b>2</b>
+          <div class="barlabel">Low</div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="grid2">
+
+    <div class="card">
+
+      <div class="section-title">
+        Recent High-Priority Complaints
+      </div>
+
+      <div class="tablewrap">
+
+        <table class="table" id="recentTable"></table>
+
+      </div>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="section-title">
+        System Activity
+      </div>
+
+      <div class="activity" id="overviewActivity"></div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================================================
+     REPORT
+========================================================= -->
+
+<section id="report" class="page">
+
+  <div class="page-title">
+
+    <div>
+      <h2>Report a Water Problem</h2>
+      <p>
+        Submit your complaint and let the priority engine determine urgency.
+      </p>
+    </div>
+
+  </div>
+
+
+  <div class="card">
+
+    <div class="notice">
+      ✓ Your complaint is stored in this browser and immediately analyzed.
+    </div>
+
+    <div class="formgrid">
+
+      <div class="field">
+
+        <label>Name</label>
+
+        <input id="fName"
+               placeholder="Enter your name">
+
+      </div>
+
+
+      <div class="field">
+
+        <label>Area / Locality *</label>
+
+        <select id="fArea">
+
+          <option>Shivaji Nagar</option>
+          <option>Ganesh Nagar</option>
+          <option>Lake Road</option>
+          <option>Dadar</option>
+          <option>Matunga</option>
+          <option>Santacruz</option>
+          <option>Bandra</option>
+          <option>Sion</option>
+
+        </select>
+
+      </div>
+
+
+      <div class="field">
+
+        <label>Problem Category *</label>
+
+        <select id="fCat">
+
+          <option>No Water</option>
+          <option>Low Pressure</option>
+          <option>Contamination</option>
+          <option>Leakage</option>
+          <option>General</option>
+
+        </select>
+
+      </div>
+
+
+      <div class="field">
+
+        <label>Population Affected</label>
+
+        <input id="fPop"
+               type="number"
+               min="1"
+               value="200">
+
+      </div>
+
+
+      <div class="field">
+
+        <label>Days Without Adequate Water</label>
+
+        <input id="fDays"
+               type="number"
+               min="0"
+               value="3">
+
+      </div>
+
+
+      <div class="field">
+
+        <label>Vulnerability Score</label>
+
+        <select id="fVul">
+
+          <option value="8">8 — High</option>
+          <option value="10">10 — Very High</option>
+          <option value="6">6 — Moderate</option>
+          <option value="4">4 — Low</option>
+          <option value="2">2 — Very Low</option>
+
+        </select>
+
+      </div>
+
+
+      <div class="field">
+
+        <label>Daily Water Demand (Litres)</label>
+
+        <input id="fDemand"
+               type="number"
+               min="1"
+               value="5000">
+
+      </div>
+
+
+      <div class="field">
+
+        <label>Recent Daily Supply (Litres)</label>
+
+        <input id="fSupply"
+               type="number"
+               min="0"
+               value="1500">
+
+      </div>
+
+
+      <div class="field full">
+
+        <label>Complaint Description</label>
+
+        <textarea id="fDesc"
+                  placeholder="Describe the issue, timing and impact..."></textarea>
+
+      </div>
+
+    </div>
+
+
+    <div class="actions">
+
+      <button class="btn secondary"
+              onclick="resetForm()">
+        Clear
+      </button>
+
+      <button class="btn primary"
+              onclick="submitComplaint()">
+        ➤ Submit Complaint
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <div class="grid3">
+
+    <div class="card">
+
+      <div class="section-title">How priority works</div>
+
+      <p style="font-size:13px;color:#60788d;line-height:1.7">
+        Your complaint is scored using shortage duration,
+        vulnerability, unmet demand, population affected and
+        problem severity.
+      </p>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="section-title">What happens next?</div>
+
+      <p style="font-size:13px;color:#60788d;line-height:1.7">
+        Your complaint is analyzed, ranked against other complaints
+        and shown to the operational dashboard.
+      </p>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="section-title">Emergency cases</div>
+
+      <p style="font-size:13px;color:#60788d;line-height:1.7">
+        Critical cases receive the highest priority for response
+        and tanker allocation.
+      </p>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================================================
+     COMPLAINTS
+========================================================= -->
+
+<section id="complaints" class="page">
+
+  <div class="page-title">
+
+    <div>
+      <h2>My Complaints</h2>
+      <p>
+        Track your submitted complaints and priority analysis.
+      </p>
+    </div>
+
+    <button class="btn primary"
+            onclick="showPage('report')">
+      + New Complaint
+    </button>
+
+  </div>
+
+
+  <div class="card">
+
+    <div class="searchbar">
+
+      <input id="complaintSearch"
+             placeholder="🔎 Search complaints..."
+             oninput="renderComplaints()">
+
+      <select id="complaintFilter"
+              onchange="renderComplaints()">
+
+        <option value="all">All Priority</option>
+        <option value="Critical">Critical</option>
+        <option value="High">High</option>
+        <option value="Medium">Medium</option>
+        <option value="Low">Low</option>
+
+      </select>
+
+    </div>
+
+    <div id="complaintList"></div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================================================
+     ADMIN
+========================================================= -->
+
+<section id="admin" class="page">
+
+  <div class="page-title">
+
+    <div>
+      <h2>Admin Dashboard</h2>
+      <p>
+        Operational intelligence for water supply response teams.
+      </p>
+    </div>
+
+    <button class="btn secondary"
+            onclick="exportCSV()">
+      ⇩ Export CSV
+    </button>
+
+  </div>
+
+
+  <div class="cards">
+
+    <div class="card">
+      <small>Total Complaints</small>
+      <div class="metric">
+        <strong id="aTotal">24</strong>
+        <span>💧</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <small>Critical</small>
+      <div class="metric">
+        <strong id="aCritical">7</strong>
+        <span>🔴</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <small>High Priority</small>
+      <div class="metric">
+        <strong id="aHigh">9</strong>
+        <span>🟠</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <small>Resolved</small>
+      <div class="metric">
+        <strong id="aResolved">18</strong>
+        <span>✓</span>
+      </div>
+    </div>
+
+  </div>
+
+
+  <div class="grid2">
+
+    <div class="card">
+
+      <div class="section-title">
+        Complaints by Category
+      </div>
+
+      <div class="chart" id="adminBars"></div>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="section-title">
+        Recent Complaints
+      </div>
+
+      <div class="tablewrap">
+
+        <table class="table" id="adminTable"></table>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="card" style="margin-top:15px">
+
+    <div class="section-title">
+      Priority Queue
+    </div>
+
+    <div class="tablewrap">
+
+      <table class="table" id="adminQueue"></table>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================================================
+     PRIORITY AREAS
+========================================================= -->
+
+<section id="areas" class="page">
+
+  <div class="page-title">
+
+    <div>
+      <h2>Priority Areas</h2>
+      <p>
+        Localities sorted according to current water shortage signals.
+      </p>
+    </div>
+
+  </div>
+
+
+  <div class="card">
+
+    <div class="tablewrap">
+
+      <table class="table" id="areaTable"></table>
+
+    </div>
+
+  </div>
+
+
+  <div class="card" style="margin-top:15px">
+
+    <div class="section-title">
+      Locality Intelligence Map
+    </div>
+
+    <div class="map">
+
+      <div class="road"></div>
+
+      <span class="pin"
+            style="left:22%;top:45%"></span>
+
+      <span class="pin"
+            style="left:46%;top:28%;background:#f59e0b"></span>
+
+      <span class="pin"
+            style="left:69%;top:57%"></span>
+
+      <span class="pin"
+            style="left:80%;top:25%;background:#0787d9"></span>
+
+      <span class="pin"
+            style="left:34%;top:70%;background:#f59e0b"></span>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================================================
+     TANKER
+========================================================= -->
+
+<section id="tanker" class="page">
+
+  <div class="page-title">
+
+    <div>
+      <h2>GPS Tanker Tracking & Smart Dispatch</h2>
+      <p>
+        Live tanker position, ETA and priority-based assignment.
+      </p>
+    </div>
+
+    <span class="livepill">
+      <i></i>
+      LIVE GPS DEMO
+    </span>
+
+  </div>
+
+
+  <div class="notice">
+    ✓ Tankers are automatically assigned to the highest-priority
+    active locality.
+  </div>
+
+
+  <div class="gpsgrid">
+
+    <div class="card">
+
+      <div class="section-title">
+        Live Tanker Map
+      </div>
+
+      <div class="gpsmap">
+
+        <div class="gpsroad"></div>
+        <div class="gpsroad r2"></div>
+        <div class="gpsroad r3"></div>
+
+        <span class="maplabel"
+              style="left:8%;top:12%">Sion</span>
+
+        <span class="maplabel"
+              style="left:48%;top:12%">Dadar</span>
+
+        <span class="maplabel"
+              style="left:73%;top:38%">Matunga</span>
+
+        <span class="maplabel"
+              style="left:12%;top:67%">
+          Shivaji Nagar
+        </span>
+
+        <span class="maplabel"
+              style="left:57%;top:76%">
+          Ganesh Nagar
+        </span>
+
+        <span class="gpsdot selected"
+              id="targetDot"
+              style="left:18%;top:62%"></span>
+
+        <div class="tanker"
+             id="tankerIcon"
+             style="left:6%;top:78%">
+          🚚
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="section-title">
+        Tanker Dispatch
+      </div>
+
+      <div class="tankerrow">
+
+        <span>
+          <b>Tanker ID</b><br>
+          <small>JAL-001</small>
+        </span>
+
+        <span class="badge high"
+              id="tkStatus">
+          En route
+        </span>
+
+      </div>
+
+
+      <div class="tankerrow">
+
+        <span>
+          <b>Assigned Locality</b><br>
+          <small id="tkArea">
+            Shivaji Nagar
+          </small>
+        </span>
+
+        <span>📍</span>
+
+      </div>
+
+
+      <div class="tankerrow">
+
+        <span>
+          <b>Current GPS</b><br>
+          <small id="tkGps">
+            19.0450, 72.8850
+          </small>
+        </span>
+
+        <span class="livepill">
+          <i></i>Live
+        </span>
+
+      </div>
+
+
+      <div style="margin:16px 0">
+
+        <div style="display:flex;justify-content:space-between;font-size:12px;font-weight:700">
+
+          <span>Route progress</span>
+
+          <span id="tkProgress">0%</span>
+
+        </div>
+
+        <div class="progress">
+
+          <div id="tkProgressBar"
+               style="width:0%">
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="grid2"
+           style="margin-top:0">
+
+        <div class="card">
+
+          <small>ETA</small>
+
+          <strong id="tkEta"
+                  style="display:block;font-size:23px;color:#0b4a88;margin-top:5px">
+            08 min
+          </strong>
+
+        </div>
+
+        <div class="card">
+
+          <small>Water Load</small>
+
+          <strong
+            style="display:block;font-size:23px;color:#0b4a88;margin-top:5px">
+            10,000 L
+          </strong>
+
+        </div>
+
+      </div>
+
+
+      <button class="btn primary"
+              style="width:100%;margin-top:12px"
+              onclick="dispatchNextTanker()">
+        🚚 Dispatch / Re-route Tanker
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <div class="grid2">
+
+    <div class="card">
+
+      <div class="section-title">
+        Why this locality is selected
+      </div>
+
+      <div id="dispatchReason"
+           style="font-size:13px;line-height:1.7;color:#60788d">
+      </div>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="section-title">
+        Smart Allocation Logic
+      </div>
+
+      <ol style="font-size:13px;color:#60788d;line-height:1.8">
+
+        <li>
+          Find active complaints with inadequate water.
+        </li>
+
+        <li>
+          Calculate priority score.
+        </li>
+
+        <li>
+          Identify the highest-priority locality.
+        </li>
+
+        <li>
+          Estimate tanker ETA.
+        </li>
+
+        <li>
+          Re-route when a higher priority case appears.
+        </li>
+
+      </ol>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================================================
+     ACTIVITY
+========================================================= -->
+
+<section id="activity" class="page">
+
+  <div class="page-title">
+
+    <div>
+      <h2>Activity Center</h2>
+      <p>
+        Recent actions and system events.
+      </p>
+    </div>
+
+  </div>
+
+
+  <div class="card">
+
+    <div class="activity"
+         id="fullActivity"></div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================================================
+     SETTINGS
+========================================================= -->
+
+<section id="services" class="page">
+
+  <div class="page-title">
+    <div>
+      <h2>Citizen Service Hub</h2>
+      <p>Useful self-service tools for better water access, conservation and faster support.</p>
+    </div>
+    <button class="btn primary" onclick="showPage('report')">+ Report an issue</button>
+  </div>
+
+  <div class="grid3">
+    <div class="service-card">
+      <div class="service-icon">🚰</div><h3>Request water delivery</h3>
+      <p>Ask for emergency supply to be considered by the priority engine.</p>
+      <button class="btn primary" onclick="requestService('Emergency water delivery')">Request delivery</button>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🔧</div><h3>Book a leakage inspection</h3>
+      <p>Send a maintenance request for leakage, meter or pressure issues.</p>
+      <button class="btn secondary" onclick="requestService('Leakage inspection')">Book inspection</button>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">📢</div><h3>Get local updates</h3>
+      <p>Subscribe to supply and tanker alerts for your registered locality.</p>
+      <button class="btn success" onclick="toggleAlerts(this)">Enable alerts</button>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <div class="section-title">My service requests</div>
+      <div id="serviceRequests" class="request-list"></div>
+    </div>
+    <div class="card">
+      <div class="section-title">Today’s water-smart action</div>
+      <div class="water-tip">💧 <b>Save water during low-pressure periods.</b><br>Store only what your household needs and report recurring low pressure—your report helps the system plan fairer allocation.</div>
+      <button class="btn secondary" style="margin-top:14px" onclick="showPage('areas')">Explore local water status →</button>
+    </div>
+  </div>
+</section>
+
+<section id="settings" class="page">
+
+  <div class="page-title">
+
+    <div>
+      <h2>Settings</h2>
+      <p>
+        Manage your JALNYAY AI profile and demo data.
+      </p>
+    </div>
+
+  </div>
+
+
+  <div class="grid2">
+
+    <div class="card">
+
+      <div class="section-title">
+        My Profile
+      </div>
+
+      <div class="field">
+        <label>Name</label>
+        <input id="profileName">
+      </div>
+
+      <div class="field"
+           style="margin-top:12px">
+
+        <label>Email</label>
+
+        <input id="profileEmail"
+               disabled>
+
+      </div>
+
+      <button class="btn primary"
+              style="margin-top:14px"
+              onclick="updateProfile()">
+        Save Profile
+      </button>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="section-title">
+        Demo Controls
+      </div>
+
+      <p style="color:#60788d;font-size:13px;line-height:1.7">
+        New accounts and complaints are stored locally in your browser.
+        Resetting demo data removes submitted complaints but does not
+        remove your login account.
+      </p>
+
+      <button class="btn danger"
+              onclick="resetDemo()">
+        Reset Complaint Data
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <div class="card"
+       style="margin-top:15px">
+
+    <div class="section-title">
+      Priority Formula
+    </div>
+
+    <p style="font-size:13px;line-height:1.7;color:#60788d">
+
+      Priority Score =
+      <b>28% shortage duration</b> +
+      <b>22% vulnerability</b> +
+      <b>22% unmet demand</b> +
+      <b>13% population affected</b> +
+      <b>15% problem severity</b>.
+
+      The result is normalized to 0–100 and classified as
+      Critical, High, Medium or Low.
+
+    </p>
+
+  </div>
+
+</section>
+
+</main>
+</div>
+</div>
+
+
+<!-- MODAL -->
+
+<div class="modal"
+     id="modal">
+
+  <div class="modalbox"
+       id="modalBox">
+  </div>
+
+</div>
+
+
+<!-- TOAST -->
+
+<div class="toast"
+     id="toast">
+</div>
+
+<div class="install-app" id="installApp">
+  <span>📲 <b>Install JALNYAY AI</b><br>Use it like an app, even with limited connectivity.</span>
+  <button id="installButton">Install</button>
+  <button class="dismiss" onclick="document.getElementById('installApp').classList.remove('show')">×</button>
+</div>
+
+
+<script>
+
+/* =========================================================
+   AUTHENTICATION
+========================================================= */
+
+const DEFAULT_USER = {
+  name:"Saniya",
+  email:"saniyak@gmail.com",
+  password:"1234"
+};
+
+function getUsers(){
+
+  let users = JSON.parse(
+    localStorage.getItem("jalnyay_users") || "[]"
+  );
+
+  const exists = users.some(
+    u => u.email.toLowerCase() === DEFAULT_USER.email
+  );
+
+  if(!exists){
+    users.push(DEFAULT_USER);
+    localStorage.setItem(
+      "jalnyay_users",
+      JSON.stringify(users)
+    );
+  }
+
+  return users;
+}
+
+function saveUsers(users){
+
+  localStorage.setItem(
+    "jalnyay_users",
+    JSON.stringify(users)
+  );
+
+}
+
+getUsers();
+
+
+function switchAuth(type){
+
+  const loginForm =
+    document.getElementById("loginForm");
+
+  const signupForm =
+    document.getElementById("signupForm");
+
+  const loginTab =
+    document.getElementById("loginTab");
+
+  const signupTab =
+    document.getElementById("signupTab");
+
+  clearAuthError();
+
+  if(type==="login"){
+
+    loginForm.classList.remove("hidden");
+    signupForm.classList.add("hidden");
+
+    loginTab.classList.add("active");
+    signupTab.classList.remove("active");
+
+  }else{
+
+    signupForm.classList.remove("hidden");
+    loginForm.classList.add("hidden");
+
+    signupTab.classList.add("active");
+    loginTab.classList.remove("active");
+
+  }
+
+}
+
+
+function togglePassword(id,button){
+
+  const input =
+    document.getElementById(id);
+
+  if(input.type==="password"){
+
+    input.type="text";
+    button.textContent="🙈";
+
+  }else{
+
+    input.type="password";
+    button.textContent="👁";
+
+  }
+
+}
+
+
+function showAuthError(message){
+
+  const box =
+    document.getElementById("authError");
+
+  box.textContent=message;
+  box.classList.add("show");
+
+}
+
+
+function clearAuthError(){
+
+  document
+    .getElementById("authError")
+    .classList.remove("show");
+
+}
+
+
+function login(event){
+
+  event.preventDefault();
+
+  const email =
+    document
+      .getElementById("loginEmail")
+      .value
+      .trim()
+      .toLowerCase();
+
+  const password =
+    document
+      .getElementById("loginPassword")
+      .value;
+
+  const users=getUsers();
+
+  const user=users.find(
+    u =>
+      u.email.toLowerCase()===email &&
+      u.password===password
+  );
+
+  if(!user){
+
+    showAuthError(
+      "Invalid email or password. Please try again."
+    );
+
+    return;
+
+  }
+
+  localStorage.setItem(
+    "jalnyay_current_user",
+    JSON.stringify(user)
+  );
+
+  openApplication(user);
+
+}
+
+
+function signup(event){
+
+  event.preventDefault();
+
+  const name =
+    document
+      .getElementById("signupName")
+      .value
+      .trim();
+
+  const email =
+    document
+      .getElementById("signupEmail")
+      .value
+      .trim()
+      .toLowerCase();
+
+  const password =
+    document
+      .getElementById("signupPassword")
+      .value;
+
+  const confirm =
+    document
+      .getElementById("signupConfirm")
+      .value;
+
+  if(password!==confirm){
+
+    showAuthError(
+      "Passwords do not match."
+    );
+
+    return;
+
+  }
+
+  const users=getUsers();
+
+  if(users.some(
+    u=>u.email.toLowerCase()===email
+  )){
+
+    showAuthError(
+      "An account with this email already exists. Please sign in."
+    );
+
+    return;
+
+  }
+
+  const newUser={
+    name,
+    email,
+    password
+  };
+
+  users.push(newUser);
+
+  saveUsers(users);
+
+  localStorage.setItem(
+    "jalnyay_current_user",
+    JSON.stringify(newUser)
+  );
+
+  toast("Account created successfully!");
+
+  openApplication(newUser);
+
+}
+
+
+function openApplication(user){
+
+  document
+    .getElementById("authScreen")
+    .classList.add("hidden");
+
+  document
+    .getElementById("app")
+    .classList.remove("hidden");
+
+  updateUserUI(user);
+
+  renderAll();
+
+}
+
+
+function updateUserUI(user){
+
+  const first =
+    user.name
+      ? user.name.charAt(0).toUpperCase()
+      : "U";
+
+  document
+    .getElementById("userAvatar")
+    .textContent=first;
+
+  document
+    .getElementById("headerUser")
+    .textContent=user.name;
+
+  document
+    .getElementById("welcomeText")
+    .textContent=
+      `Welcome back, ${user.name}. Here is your water intelligence overview.`;
+
+  const heroGreeting=document.getElementById("heroGreeting");
+  if(heroGreeting){
+    const hour=new Date().getHours();
+    const salutation=hour<12 ? "Good morning" : hour<18 ? "Good afternoon" : "Good evening";
+    heroGreeting.textContent=`${salutation}, ${user.name}. Here’s today’s water response pulse.`;
+  }
+
+  document
+    .getElementById("profileName")
+    .value=user.name;
+
+  document
+    .getElementById("profileEmail")
+    .value=user.email;
+
+}
+
+
+function logout(){
+
+  localStorage.removeItem(
+    "jalnyay_current_user"
+  );
+
+  document
+    .getElementById("app")
+    .classList.add("hidden");
+
+  document
+    .getElementById("authScreen")
+    .classList.remove("hidden");
+
+  switchAuth("login");
+
+  toast("You have been logged out.");
+
+}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+function showPage(id){
+
+  document
+    .querySelectorAll(".page")
+    .forEach(p=>p.classList.remove("active"));
+
+  const page=document.getElementById(id);
+
+  if(page){
+    page.classList.add("active");
+  }
+
+  document
+    .querySelectorAll(".nav button")
+    .forEach(b=>{
+      b.classList.toggle(
+        "active",
+        b.dataset.page===id
+      );
+    });
+
+  renderAll();
+
+  if(id==="tanker"){
+    startTanker();
+  }
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+}
+
+
+document
+  .querySelectorAll(".nav button")
+  .forEach(button=>{
+    button.onclick=()=>{
+      showPage(button.dataset.page);
+    };
+  });
+
+
+/* =========================================================
+   COMPLAINT DATA
+========================================================= */
+
+const seed=[
+
+{
+ id:"C001",
+ locality:"Shivaji Nagar",
+ category:"No Water",
+ score:89,
+ priority:"Critical",
+ pop:4800,
+ days:5,
+ demand:5000,
+ supply:1500,
+ vul:8,
+ reviewed:false,
+ desc:"There has been no water supply in our area for the last 5 days. We are facing severe problems for daily use."
+},
+
+{
+ id:"C002",
+ locality:"Ganesh Nagar",
+ category:"Low Pressure",
+ score:76,
+ priority:"High",
+ pop:3200,
+ days:3,
+ demand:4500,
+ supply:2400,
+ vul:7,
+ reviewed:false,
+ desc:"Water reaches homes with very low pressure during morning supply."
+},
+
+{
+ id:"C003",
+ locality:"Lake Road",
+ category:"Contamination",
+ score:68,
+ priority:"High",
+ pop:1500,
+ days:2,
+ demand:3000,
+ supply:1800,
+ vul:7,
+ reviewed:false,
+ desc:"Residents reported unusual colour and smell in supplied water."
+},
+
+{
+ id:"C004",
+ locality:"Dadar",
+ category:"Leakage",
+ score:52,
+ priority:"Medium",
+ pop:2300,
+ days:2,
+ demand:3200,
+ supply:2500,
+ vul:5,
+ reviewed:false,
+ desc:"Main road pipeline appears to be leaking."
+},
+
+{
+ id:"C005",
+ locality:"Matunga",
+ category:"No Water",
+ score:41,
+ priority:"Medium",
+ pop:900,
+ days:1,
+ demand:1800,
+ supply:900,
+ vul:5,
+ reviewed:false,
+ desc:"Intermittent water shortage reported."
+}
+
+];
+
+
+let complaints =
+  JSON.parse(
+    localStorage.getItem(
+      "jalnyay_complaints"
+    ) || "null"
+  ) || seed;
+
+
+function save(){
+
+  localStorage.setItem(
+    "jalnyay_complaints",
+    JSON.stringify(complaints)
+  );
+
+}
+
+
+function level(score){
+
+  if(score>=80) return "Critical";
+
+  if(score>=65) return "High";
+
+  if(score>=45) return "Medium";
+
+  return "Low";
+
+}
+
+
+function scoreCalc(
+  pop,
+  days,
+  vul,
+  demand,
+  supply,
+  cat
+){
+
+  const shortage=
+    Math.min(
+      100,
+      days/7*100
+    );
+
+  const vuln=vul*10;
+
+  const unmet=
+    Math.min(
+      100,
+      Math.max(
+        0,
+        (demand-supply) /
+        Math.max(demand,1) *
+        100
+      )
+    );
+
+  const affected=
+    Math.min(
+      100,
+      pop/5000*100
+    );
+
+  const severityMap={
+
+    "No Water":100,
+    "Contamination":90,
+    "Low Pressure":70,
+    "Leakage":55,
+    "General":40
+
+  };
+
+  const severity=
+    severityMap[cat] || 50;
+
+  return Math.round(
+    shortage*.28+
+    vuln*.22+
+    unmet*.22+
+    affected*.13+
+    severity*.15
+  );
+
+}
+
+
+/* =========================================================
+   SUBMIT COMPLAINT
+========================================================= */
+
+function submitComplaint(){
+
+  const area=
+    document.getElementById("fArea").value;
+
+  const cat=
+    document.getElementById("fCat").value;
+
+  const pop=
+    +document.getElementById("fPop").value || 1;
+
+  const days=
+    +document.getElementById("fDays").value || 0;
+
+  const vul=
+    +document.getElementById("fVul").value;
+
+  const demand=
+    +document.getElementById("fDemand").value || 1;
+
+  const supply=
+    +document.getElementById("fSupply").value || 0;
+
+  const desc=
+    document.getElementById("fDesc").value ||
+    "Citizen reported a water-supply issue.";
+
+  const currentUser =
+    JSON.parse(
+      localStorage.getItem(
+        "jalnyay_current_user"
+      ) || "null"
+    );
+
+  const score=
+    scoreCalc(
+      pop,
+      days,
+      vul,
+      demand,
+      supply,
+      cat
+    );
+
+  const nextNumber =
+    Math.max(
+      ...complaints.map(
+        c=>parseInt(
+          c.id.replace("C","")
+        )
+      )
+    )+1;
+
+  const id=
+    "C"+
+    String(nextNumber)
+      .padStart(3,"0");
+
+  const complaint={
+
+    id,
+    locality:area,
+    category:cat,
+    score,
+    priority:level(score),
+    pop,
+    days,
+    demand,
+    supply,
+    vul,
+    desc,
+    name:
+      document.getElementById("fName").value ||
+      currentUser?.name ||
+      "",
+    email:
+      currentUser?.email || "",
+    reviewed:false,
+    createdAt:new Date().toLocaleString()
+
+  };
+
+  complaints.unshift(complaint);
+
+  save();
+
+  addActivity(
+    "📝",
+    "New complaint submitted",
+    `${id} — ${area} — ${level(score)} priority`
+  );
+
+  resetForm();
+
+  showPage("complaints");
+
+  setTimeout(()=>{
+    openComplaint(complaint);
+  },200);
+
+  toast(
+    `Complaint ${id} submitted successfully • Priority: ${level(score)}`
+  );
+
+}
+
+
+/* =========================================================
+   FORM
+========================================================= */
+
+function resetForm(){
+
+  document.getElementById("fName").value="";
+
+  document.getElementById("fDesc").value="";
+
+  document.getElementById("fPop").value=200;
+
+  document.getElementById("fDays").value=3;
+
+  document.getElementById("fDemand").value=5000;
+
+  document.getElementById("fSupply").value=1500;
+
+}
+
+
+/* =========================================================
+   COMPLAINT MODAL
+========================================================= */
+
+function openComplaint(c){
+
+  const unmet=
+    Math.round(
+      Math.min(
+        100,
+        Math.max(
+          0,
+          (c.demand-c.supply) /
+          c.demand *
+          100
+        )
+      )
+    );
+
+  document.getElementById("modalBox").innerHTML=`
+
+    <div class="modalhead">
+
+      <div>
+
+        <div style="font-size:12px;color:#6c8295">
+          ${c.id}
+        </div>
+
+        <h2 style="margin:3px 0;color:#103f6c">
+          ${escapeHtml(c.locality)}
+          —
+          ${escapeHtml(c.category)}
+        </h2>
+
+      </div>
+
+      <button class="close"
+              onclick="closeModal()">
+        ×
+      </button>
+
+    </div>
+
+
+    <div class="notice">
+      ✓ AI priority engine analyzed this complaint.
+    </div>
+
+
+    <div class="grid2">
+
+      <div class="card">
+
+        <div class="section-title">
+          Priority Score
+        </div>
+
+        <div class="score">
+          ${c.score}/100
+        </div>
+
+        <p>
+          <span class="badge ${c.priority.toLowerCase()}">
+            ${c.priority}
+          </span>
+        </p>
+
+
+        <div class="factor">
+
+          <b>Shortage Duration</b>
+
+          <div class="track">
+            <div class="fill"
+                 style="width:${Math.min(100,c.days/7*100)}%">
+            </div>
+          </div>
+
+          <span>
+            ${Math.min(100,Math.round(c.days/7*100))}%
+          </span>
+
+        </div>
+
+
+        <div class="factor">
+
+          <b>Vulnerability</b>
+
+          <div class="track">
+            <div class="fill"
+                 style="width:${c.vul*10}%">
+            </div>
+          </div>
+
+          <span>${c.vul*10}%</span>
+
+        </div>
+
+
+        <div class="factor">
+
+          <b>Unmet Demand</b>
+
+          <div class="track">
+            <div class="fill"
+                 style="width:${unmet}%">
+            </div>
+          </div>
+
+          <span>${unmet}%</span>
+
+        </div>
+
+      </div>
+
+
+      <div class="card">
+
+        <div class="section-title">
+          Reported Details
+        </div>
+
+        <p>
+          <b>Population affected:</b>
+          ${Number(c.pop).toLocaleString()}
+        </p>
+
+        <p>
+          <b>Days without adequate water:</b>
+          ${c.days}
+        </p>
+
+        <p>
+          <b>Daily demand:</b>
+          ${Number(c.demand).toLocaleString()} L
+        </p>
+
+        <p>
+          <b>Recent supply:</b>
+          ${Number(c.supply).toLocaleString()} L
+        </p>
+
+        <p>
+          <b>Vulnerability:</b>
+          ${c.vul}/10
+        </p>
+
+        <p>
+          <b>Reported by:</b>
+          ${escapeHtml(c.name || "Citizen")}
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <div class="card"
+         style="margin-top:15px">
+
+      <div class="section-title">
+        Complaint Description
+      </div>
+
+      <p>
+        ${escapeHtml(c.desc)}
+      </p>
+
+    </div>
+
+
+    <div class="actions">
+
+      <button class="btn success"
+              onclick="markReviewed('${c.id}')">
+        ✓ Mark as Reviewed
+      </button>
+
+      <button class="btn primary"
+              onclick="dispatchComplaint('${c.locality}')">
+        🚚 Dispatch Tanker
+      </button>
+
+      <button class="btn secondary"
+              onclick="closeModal()">
+        Close
+      </button>
+
+    </div>
+
+  `;
+
+  document
+    .getElementById("modal")
+    .classList.add("open");
+
+}
+
+
+function closeModal(){
+
+  document
+    .getElementById("modal")
+    .classList.remove("open");
+
+}
+
+
+function markReviewed(id){
+
+  const c=
+    complaints.find(
+      x=>x.id===id
+    );
+
+  if(c){
+
+    c.reviewed=true;
+
+    save();
+
+    addActivity(
+      "✓",
+      "Complaint reviewed",
+      `${id} marked as reviewed`
+    );
+
+  }
+
+  closeModal();
+
+  renderAll();
+
+  toast(
+    `${id} marked as reviewed`
+  );
+
+}
+
+
+function dispatchComplaint(area){
+
+  closeModal();
+
+  showPage("tanker");
+
+  toast(
+    `Tanker priority updated for ${area}`
+  );
+
+}
+
+
+/* =========================================================
+   COMPLAINT RENDERING
+========================================================= */
+
+function renderComplaints(){
+
+  const search=
+    (
+      document.getElementById(
+        "complaintSearch"
+      )?.value || ""
+    ).toLowerCase();
+
+  const filter=
+    document.getElementById(
+      "complaintFilter"
+    )?.value || "all";
+
+  const filtered=
+    complaints.filter(c=>{
+
+      const matchesSearch=
+        c.id.toLowerCase().includes(search) ||
+        c.locality.toLowerCase().includes(search) ||
+        c.category.toLowerCase().includes(search);
+
+      const matchesFilter=
+        filter==="all" ||
+        c.priority===filter;
+
+      return matchesSearch &&
+             matchesFilter;
+
+    });
+
+  const list=
+    document.getElementById(
+      "complaintList"
+    );
+
+  if(!list) return;
+
+  if(!filtered.length){
+
+    list.innerHTML=`
+      <div class="notice warning">
+        No complaints match your search.
+      </div>
+    `;
+
+    return;
+
+  }
+
+  list.innerHTML=
+    filtered.map(c=>`
+
+      <div class="card"
+           style="margin-bottom:12px">
+
+        <div class="metric">
+
+          <div>
+
+            <small>
+              ${c.id}
+              •
+              ${escapeHtml(c.locality)}
+              •
+              ${escapeHtml(c.createdAt || "Demo")}
+            </small>
+
+            <h3 style="margin:5px 0;color:#124a78">
+              ${escapeHtml(c.category)}
+            </h3>
+
+          </div>
+
+
+          <div style="text-align:right">
+
+            <div class="score"
+                 style="font-size:24px">
+              ${c.score}/100
+            </div>
+
+            <span class="badge ${c.priority.toLowerCase()}">
+              ${c.priority}
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <p style="font-size:13px;color:#60788d">
+          ${escapeHtml(c.desc)}
+        </p>
+
+
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+
+          <span class="badge low">
+            👥 ${Number(c.pop).toLocaleString()} affected
+          </span>
+
+          <span class="badge medium">
+            💧 ${c.supply.toLocaleString()} /
+            ${c.demand.toLocaleString()} L
+          </span>
+
+          <span class="badge high">
+            📅 ${c.days} day(s)
+          </span>
+
+          ${
+            c.reviewed
+            ? `<span class="badge low">✓ Reviewed</span>`
+            : `<span class="badge critical">● Active</span>`
+          }
+
+        </div>
+
+
+        <div class="actions">
+
+          <button class="btn primary"
+                  onclick='openComplaint(${JSON.stringify(c)})'>
+            View Analysis
+          </button>
+
+        </div>
+
+      </div>
+
+    `).join("");
+
+}
+
+
+/* =========================================================
+   RENDER ALL
+========================================================= */
+
+function renderAll(){
+
+  renderDashboard();
+
+  renderComplaints();
+
+  renderAdmin();
+
+  renderAreas();
+
+  renderActivity();
+
+  renderServices();
+
+  updateDispatchTarget();
+
+}
+
+
+/* =========================================================
+   DASHBOARD
+========================================================= */
+
+function renderDashboard(){
+
+  const total=
+    24+
+    Math.max(
+      0,
+      complaints.length-seed.length
+    );
+
+  const critical=
+    7+
+    complaints.filter(
+      c=>
+        c.score>=80 &&
+        !seed.some(
+          s=>s.id===c.id
+        )
+    ).length;
+
+  const areas=
+    new Set(
+      complaints.map(
+        c=>c.locality
+      )
+    ).size;
+
+  const avg=
+    complaints.reduce(
+      (a,c)=>a+c.score,
+      0
+    ) /
+    complaints.length;
+
+  document.getElementById("mTotal")
+    .textContent=total;
+
+  document.getElementById("aTotal")
+    .textContent=total;
+
+  document.getElementById("mCritical")
+    .textContent=critical;
+
+  document.getElementById("aCritical")
+    .textContent=critical;
+
+  document.getElementById("mAreas")
+    .textContent=areas;
+
+  document.getElementById("mAvg")
+    .textContent=avg.toFixed(1);
+
+  const priorityTarget=getDispatchTarget();
+  const heroPriority=document.getElementById("heroPriority");
+  const heroEta=document.getElementById("heroEta");
+
+  if(heroPriority){
+    heroPriority.textContent=
+      `${priorityTarget.locality} · ${priorityTarget.priority} priority`;
+  }
+
+  if(heroEta){
+    heroEta.textContent=
+      priorityTarget.priority==="Critical" ? "Dispatch now" : "Within 20 min";
+  }
+
+
+  const highCount=
+    complaints.filter(
+      c=>c.priority==="High"
+    ).length;
+
+  document.getElementById("aHigh")
+    .textContent=highCount;
+
+
+  document.getElementById("recentTable").innerHTML=
+
+    `<tr>
+      <th>#</th>
+      <th>Locality</th>
+      <th>Category</th>
+      <th>Priority</th>
+      <th>Score</th>
+      <th></th>
+    </tr>`+
+
+    complaints
+      .slice()
+      .sort(
+        (a,b)=>b.score-a.score
+      )
+      .slice(0,5)
+      .map(c=>`
+
+        <tr>
+
+          <td>${c.id}</td>
+
+          <td>${escapeHtml(c.locality)}</td>
+
+          <td>${escapeHtml(c.category)}</td>
+
+          <td>
+            <span class="badge ${c.priority.toLowerCase()}">
+              ${c.priority}
+            </span>
+          </td>
+
+          <td>
+            <b>${c.score}</b>
+          </td>
+
+          <td>
+
+            <button class="btn secondary"
+                    style="padding:5px 8px"
+                    onclick='openComplaint(${JSON.stringify(c)})'>
+              View
+            </button>
+
+          </td>
+
+        </tr>
+
+      `).join("");
+
+}
+
+
+/* =========================================================
+   ADMIN
+========================================================= */
+
+function renderAdmin(){
+
+  document.getElementById("adminTable").innerHTML=
+
+    `<tr>
+      <th>ID</th>
+      <th>Locality</th>
+      <th>Category</th>
+      <th>Score</th>
+      <th>Priority</th>
+      <th>Status</th>
+    </tr>`+
+
+    complaints
+      .slice(0,8)
+      .map(c=>`
+
+        <tr>
+
+          <td>${c.id}</td>
+
+          <td>${escapeHtml(c.locality)}</td>
+
+          <td>${escapeHtml(c.category)}</td>
+
+          <td><b>${c.score}</b></td>
+
+          <td>
+            <span class="badge ${c.priority.toLowerCase()}">
+              ${c.priority}
+            </span>
+          </td>
+
+          <td>
+            ${
+              c.reviewed
+              ? "✓ Reviewed"
+              : "● Active"
+            }
+          </td>
+
+        </tr>
+
+      `).join("");
+
+
+  const categories={};
+
+  complaints.forEach(c=>{
+
+    categories[c.category]=
+      (categories[c.category]||0)+1;
+
+  });
+
+
+  document.getElementById("adminBars").innerHTML=
+
+    Object
+      .entries(categories)
+      .map(
+        ([category,count])=>`
+
+          <div class="barwrap">
+
+            <div class="bar"
+                 style="height:${30+count*18}px">
+            </div>
+
+            <b>${count}</b>
+
+            <div class="barlabel">
+              ${escapeHtml(category)}
+            </div>
+
+          </div>
+
+        `
+      ).join("");
+
+
+  document.getElementById("adminQueue").innerHTML=
+
+    `<tr>
+      <th>Rank</th>
+      <th>Complaint</th>
+      <th>Locality</th>
+      <th>Priority Score</th>
+      <th>Action</th>
+    </tr>`+
+
+    complaints
+      .slice()
+      .sort(
+        (a,b)=>b.score-a.score
+      )
+      .map(
+        (c,i)=>`
+
+          <tr>
+
+            <td>#${i+1}</td>
+
+            <td>${c.id}</td>
+
+            <td>${escapeHtml(c.locality)}</td>
+
+            <td>
+              <b>${c.score}</b>
+              <span class="badge ${c.priority.toLowerCase()}">
+                ${c.priority}
+              </span>
+            </td>
+
+            <td>
+
+              <button class="btn secondary"
+                      style="padding:5px 8px"
+                      onclick='openComplaint(${JSON.stringify(c)})'>
+                Review
+              </button>
+
+            </td>
+
+          </tr>
+
+        `
+      ).join("");
+
+}
+
+
+/* =========================================================
+   PRIORITY AREAS
+========================================================= */
+
+function renderAreas(){
+
+  const areas={};
+
+  complaints.forEach(c=>{
+
+    if(!areas[c.locality]){
+
+      areas[c.locality]={
+        reports:0,
+        pop:0,
+        score:0,
+        critical:0
+      };
+
+    }
+
+    areas[c.locality].reports++;
+
+    areas[c.locality].pop+=Number(c.pop);
+
+    areas[c.locality].score=
+      Math.max(
+        areas[c.locality].score,
+        c.score
+      );
+
+    if(c.priority==="Critical"){
+      areas[c.locality].critical++;
+    }
+
+  });
+
+
+  const rows=
+    Object
+      .entries(areas)
+      .sort(
+        (a,b)=>b[1].score-a[1].score
+      );
+
+
+  document.getElementById("areaTable").innerHTML=
+
+    `<tr>
+      <th>#</th>
+      <th>Locality</th>
+      <th>Reports</th>
+      <th>Population Affected</th>
+      <th>Highest Score</th>
+      <th>Priority</th>
+    </tr>`+
+
+    rows
+      .map(
+        ([name,value],i)=>`
+
+          <tr>
+
+            <td>${i+1}</td>
+
+            <td>
+              <b>${escapeHtml(name)}</b>
+            </td>
+
+            <td>${value.reports}</td>
+
+            <td>
+              ${value.pop.toLocaleString()}
+            </td>
+
+            <td>
+              <b>${value.score}</b>
+            </td>
+
+            <td>
+
+              <span class="badge ${level(value.score).toLowerCase()}">
+                ${level(value.score)}
+              </span>
+
+            </td>
+
+          </tr>
+
+        `
+      ).join("");
+
+}
+
+
+/* =========================================================
+   ACTIVITY
+========================================================= */
+
+function getActivities(){
+
+  return JSON.parse(
+    localStorage.getItem(
+      "jalnyay_activity"
+    ) || "[]"
+  );
+
+}
+
+
+function saveActivities(data){
+
+  localStorage.setItem(
+    "jalnyay_activity",
+    JSON.stringify(
+      data.slice(0,20)
+    )
+  );
+
+}
+
+
+function addActivity(
+  icon,
+  title,
+  detail
+){
+
+  const data=getActivities();
+
+  data.unshift({
+
+    icon,
+    title,
+    detail,
+    time:new Date().toLocaleTimeString()
+
+  });
+
+  saveActivities(data);
+
+  renderActivity();
+
+}
+
+
+function renderActivity(){
+
+  let activities=getActivities();
+
+  if(!activities.length){
+
+    activities=[
+
+      {
+        icon:"💧",
+        title:"JALNYAY AI initialized",
+        detail:"Water intelligence system ready",
+        time:"Now"
+      },
+
+      {
+        icon:"📊",
+        title:"Priority engine active",
+        detail:"Complaint scoring system is online",
+        time:"Today"
+      },
+
+      {
+        icon:"🚚",
+        title:"Tanker tracking online",
+        detail:"GPS dispatch demo is active",
+        time:"Today"
+      }
+
+    ];
+
+  }
+
+
+  const html=
+    activities.map(a=>`
+
+      <div class="activity-item">
+
+        <div class="activity-icon">
+          ${a.icon}
+        </div>
+
+        <div>
+
+          <b>${escapeHtml(a.title)}</b>
+
+          <div style="font-size:12px;color:#60788d">
+            ${escapeHtml(a.detail)}
+          </div>
+
+          <small>${escapeHtml(a.time)}</small>
+
+        </div>
+
+      </div>
+
+    `).join("");
+
+
+  const full=
+    document.getElementById(
+      "fullActivity"
+    );
+
+  const overview=
+    document.getElementById(
+      "overviewActivity"
+    );
+
+  if(full) full.innerHTML=html;
+
+  if(overview)
+    overview.innerHTML=
+      activities.slice(0,4).map(a=>`
+
+        <div class="activity-item">
+
+          <div class="activity-icon">
+            ${a.icon}
+          </div>
+
+          <div>
+
+            <b>${escapeHtml(a.title)}</b>
+
+            <div style="font-size:12px;color:#60788d">
+              ${escapeHtml(a.detail)}
+            </div>
+
+            <small>${escapeHtml(a.time)}</small>
+
+          </div>
+
+        </div>
+
+      `).join("");
+
+}
+
+
+/* =========================================================
+   CITIZEN SERVICE HUB
+========================================================= */
+
+function getServiceRequests(){
+  return JSON.parse(localStorage.getItem("jalnyay_service_requests") || "[]");
+}
+
+function renderServices(){
+  const list=document.getElementById("serviceRequests");
+  if(!list) return;
+
+  const requests=getServiceRequests();
+  if(!requests.length){
+    list.innerHTML=`<div style="color:#6b7f93;font-size:13px;padding:12px 0">No service requests yet. Use a service card above when you need help.</div>`;
+    return;
+  }
+
+  list.innerHTML=requests.map(r=>`
+    <div class="request-row">
+      <div><b>${escapeHtml(r.type)}</b><small>Requested ${escapeHtml(r.time)}</small></div>
+      <span class="badge ${r.status==='Scheduled'?'low':'medium'}">${escapeHtml(r.status)}</span>
+    </div>`).join("");
+}
+
+function requestService(type){
+  const requests=getServiceRequests();
+  requests.unshift({type,status:type==='Emergency water delivery'?'Under review':'Scheduled',time:new Date().toLocaleString()});
+  localStorage.setItem("jalnyay_service_requests",JSON.stringify(requests.slice(0,8)));
+  renderServices();
+  addActivity("✦","Service request created",type);
+  toast(type+" request submitted.");
+}
+
+function toggleAlerts(button){
+  const active=button.dataset.active==='true';
+  button.dataset.active=String(!active);
+  button.textContent=active?'Enable alerts':'✓ Alerts enabled';
+  button.className=active?'btn success':'btn secondary';
+  addActivity("📢",active?'Local alerts paused':'Local alerts enabled',active?'You can enable them again anytime.':'You will receive local supply updates.');
+  toast(active?'Local alerts paused.':'Local alerts enabled.');
+}
+
+
+/* =========================================================
+   TANKER
+========================================================= */
+
+const tankerRoute=[
+
+  {
+    left:6,
+    top:78,
+    gps:"19.0450, 72.8850"
+  },
+
+  {
+    left:16,
+    top:70,
+    gps:"19.0468, 72.8832"
+  },
+
+  {
+    left:27,
+    top:63,
+    gps:"19.0485, 72.8811"
+  },
+
+  {
+    left:39,
+    top:55,
+    gps:"19.0502, 72.8787"
+  },
+
+  {
+    left:52,
+    top:47,
+    gps:"19.0521, 72.8760"
+  },
+
+  {
+    left:65,
+    top:41,
+    gps:"19.0540, 72.8735"
+  },
+
+  {
+    left:78,
+    top:34,
+    gps:"19.0562, 72.8710"
+  }
+
+];
+
+
+let tankerStep=0;
+let tankerTimer=null;
+
+
+function getDispatchTarget(){
+
+  const active=
+    complaints
+      .filter(
+        c=>!c.reviewed
+      )
+      .sort(
+        (a,b)=>b.score-a.score
+      );
+
+  return active[0] || seed[0];
+
+}
+
+
+function updateDispatchTarget(){
+
+  const c=getDispatchTarget();
+
+  document.getElementById("tkArea")
+    .textContent=c.locality;
+
+  document.getElementById("tkStatus")
+    .textContent=
+      c.priority==="Critical"
+      ? "Priority Dispatch"
+      : "En route";
+
+  document.getElementById("targetDot")
+    .style.left=
+      (
+        18+
+        Math.min(100,c.score)/100*60
+      )+"%";
+
+  document.getElementById("targetDot")
+    .style.top=
+      (
+        62-
+        Math.min(100,c.score)/100*40
+      )+"%";
+
+
+  document.getElementById("dispatchReason")
+    .innerHTML=`
+
+      <b>${escapeHtml(c.locality)}</b>
+      was selected because its highest active complaint
+      has a priority score of
+      <b>${c.score}/100</b>
+      (${c.priority}).
+
+      <br><br>
+
+      Category:
+      <b>${escapeHtml(c.category)}</b>
+      · Shortage:
+      <b>${c.days} day(s)</b>
+      · Population affected:
+      <b>${Number(c.pop).toLocaleString()}</b>
+      · Vulnerability:
+      <b>${c.vul}/10</b>.
+
+      <br><br>
+
+      The tanker is prioritized here first.
+      If a higher-priority complaint appears,
+      the destination can automatically change.
+
+    `;
+
+}
+
+
+function animateTanker(){
+
+  const p=
+    tankerRoute[
+      tankerStep %
+      tankerRoute.length
+    ];
+
+  const icon=
+    document.getElementById(
+      "tankerIcon"
+    );
+
+  icon.style.left=
+    p.left+"%";
+
+  icon.style.top=
+    p.top+"%";
+
+
+  const progress=
+    Math.round(
+      (
+        tankerStep %
+        (tankerRoute.length-1)
+      ) /
+      (tankerRoute.length-1)
+      *100
+    );
+
+
+  document.getElementById(
+    "tkProgress"
+  ).textContent=
+    progress+"%";
+
+
+  document.getElementById(
+    "tkProgressBar"
+  ).style.width=
+    progress+"%";
+
+
+  document.getElementById(
+    "tkGps"
+  ).textContent=
+    p.gps;
+
+
+  const eta=
+    Math.max(
+      1,
+      8-Math.round(
+        progress/15
+      )
+    );
+
+
+  document.getElementById(
+    "tkEta"
+  ).textContent=
+    eta
+      .toString()
+      .padStart(2,"0")+
+    " min";
+
+
+  if(
+    tankerStep>=
+    tankerRoute.length-1
+  ){
+
+    document.getElementById(
+      "tkStatus"
+    ).textContent="Arrived";
+
+    setTimeout(()=>{
+
+      tankerStep=0;
+
+      document.getElementById(
+        "tkStatus"
+      ).textContent="En route";
+
+    },1800);
+
+  }
+
+  tankerStep++;
+
+}
+
+
+function startTanker(){
+
+  updateDispatchTarget();
+
+  if(!tankerTimer){
+
+    tankerTimer=
+      setInterval(()=>{
+
+        const tankerPage=
+          document
+            .getElementById("tanker");
+
+        if(
+          tankerPage &&
+          tankerPage.classList.contains(
+            "active"
+          )
+        ){
+
+          animateTanker();
+
+          updateDispatchTarget();
+
+        }
+
+      },1200);
+
+  }
+
+}
+
+
+function dispatchNextTanker(){
+
+  tankerStep=0;
+
+  updateDispatchTarget();
+
+  animateTanker();
+
+  const target=
+    getDispatchTarget();
+
+  addActivity(
+    "🚚",
+    "Tanker dispatched",
+    `JAL-001 assigned to ${target.locality}`
+  );
+
+  toast(
+    "Tanker dispatched to "+
+    target.locality
+  );
+
+}
+
+
+/* =========================================================
+   PROFILE
+========================================================= */
+
+function updateProfile(){
+
+  const current=
+    JSON.parse(
+      localStorage.getItem(
+        "jalnyay_current_user"
+      ) || "null"
+    );
+
+  if(!current) return;
+
+  const newName=
+    document
+      .getElementById("profileName")
+      .value
+      .trim();
+
+  if(!newName){
+
+    toast("Please enter your name.");
+
+    return;
+
+  }
+
+  let users=getUsers();
+
+  users=
+    users.map(
+      u=>
+        u.email===current.email
+        ? {...u,name:newName}
+        : u
+    );
+
+  saveUsers(users);
+
+  const updated=
+    users.find(
+      u=>u.email===current.email
+    );
+
+  localStorage.setItem(
+    "jalnyay_current_user",
+    JSON.stringify(updated)
+  );
+
+  updateUserUI(updated);
+
+  toast(
+    "Profile updated successfully."
+  );
+
+}
+
+
+/* =========================================================
+   NOTIFICATIONS
+========================================================= */
+
+function showNotifications(){
+
+  const critical=
+    complaints.filter(
+      c=>c.priority==="Critical"
+    ).length;
+
+  openSimpleModal(
+    `
+      <div class="modalhead">
+        <div>
+          <h2 style="margin:0;color:#103f6c">
+            Notifications
+          </h2>
+          <p style="color:#6b7f93">
+            Latest system alerts
+          </p>
+        </div>
+
+        <button class="close"
+                onclick="closeModal()">
+          ×
+        </button>
+      </div>
+
+      <div class="notice warning">
+        🔴 ${critical} critical complaints currently require attention.
+      </div>
+
+      <div class="card"
+           style="margin-bottom:10px">
+        🚚 Tanker JAL-001 is actively being tracked.
+      </div>
+
+      <div class="card"
+           style="margin-bottom:10px">
+        💧 Priority engine is running normally.
+      </div>
+
+      <div class="card">
+        📊 Dashboard data is synchronized with local browser storage.
+      </div>
+    `
+  );
+
+}
+
+
+function openSimpleModal(content){
+
+  document.getElementById(
+    "modalBox"
+  ).innerHTML=content;
+
+  document.getElementById(
+    "modal"
+  ).classList.add("open");
+
+}
+
+
+/* =========================================================
+   CSV
+========================================================= */
+
+function exportCSV(){
+
+  const csv=
+    "ID,Locality,Category,Score,Priority,Population,Days,Demand,Supply,Vulnerability,Status\n"+
+    complaints
+      .map(c=>{
+
+        return [
+
+          c.id,
+          c.locality,
+          c.category,
+          c.score,
+          c.priority,
+          c.pop,
+          c.days,
+          c.demand,
+          c.supply,
+          c.vul,
+          c.reviewed
+            ? "Reviewed"
+            : "Active"
+
+        ]
+        .map(
+          x=>
+            `"${String(x)
+              .replaceAll('"','""')}"`
+        )
+        .join(",");
+
+      })
+      .join("\n");
+
+
+  const a=
+    document.createElement("a");
+
+  a.href=
+    URL.createObjectURL(
+      new Blob(
+        [csv],
+        {type:"text/csv"}
+      )
+    );
+
+  a.download=
+    "jalnyay_complaints.csv";
+
+  a.click();
+
+  addActivity(
+    "📥",
+    "CSV exported",
+    "Complaint data downloaded"
+  );
+
+  toast(
+    "CSV exported successfully."
+  );
+
+}
+
+
+/* =========================================================
+   RESET DATA
+========================================================= */
+
+function resetDemo(){
+
+  if(
+    !confirm(
+      "Reset all complaint demo data?"
+    )
+  ) return;
+
+  localStorage.removeItem(
+    "jalnyay_complaints"
+  );
+
+  complaints=
+    seed.map(
+      c=>({...c})
+    );
+
+  save();
+
+  addActivity(
+    "♻️",
+    "Demo data reset",
+    "Complaint database restored"
+  );
+
+  renderAll();
+
+  toast(
+    "Complaint demo data reset."
+  );
+
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+function toast(message){
+
+  const t=
+    document.getElementById("toast");
+
+  t.textContent=message;
+
+  t.classList.add("show");
+
+  clearTimeout(
+    window.toastTimer
+  );
+
+  window.toastTimer=
+    setTimeout(
+      ()=>{
+        t.classList.remove("show");
+      },
+      2800
+    );
+
+}
+
+
+/* =========================================================
+   ESCAPE HTML
+========================================================= */
+
+function escapeHtml(value){
+
+  return String(value)
+    .replace(
+      /[&<>"']/g,
+      m=>({
+
+        "&":"&amp;",
+        "<":"&lt;",
+        ">":"&gt;",
+        '"':"&quot;",
+        "'":"&#039;"
+
+      }[m])
+    );
+
+}
+
+
+/* =========================================================
+   MODAL OUTSIDE CLICK
+========================================================= */
+
+document
+  .getElementById("modal")
+  .addEventListener(
+    "click",
+    e=>{
+
+      if(
+        e.target.id==="modal"
+      ){
+        closeModal();
+      }
+
+    }
+  );
+
+
+/* =========================================================
+   INITIALIZATION
+========================================================= */
+
+const savedUser=
+  JSON.parse(
+    localStorage.getItem(
+      "jalnyay_current_user"
+    ) || "null"
+  );
+
+if(savedUser){
+
+  openApplication(
+    savedUser
+  );
+
+}else{
+
+  document
+    .getElementById("authScreen")
+    .classList.remove("hidden");
+
+  document
+    .getElementById("app")
+    .classList.add("hidden");
+
+}
+
+renderAll();
+
+/* =========================================================
+   PWA INSTALLATION + OFFLINE SUPPORT
+========================================================= */
+
+let installPrompt=null;
+const installBanner=document.getElementById("installApp");
+const installButton=document.getElementById("installButton");
+
+window.addEventListener("beforeinstallprompt",event=>{
+  event.preventDefault();
+  installPrompt=event;
+  installBanner.classList.add("show");
+});
+
+installButton.addEventListener("click",async()=>{
+  if(!installPrompt) return;
+  installPrompt.prompt();
+  await installPrompt.userChoice;
+  installPrompt=null;
+  installBanner.classList.remove("show");
+});
+
+window.addEventListener("appinstalled",()=>{
+  installBanner.classList.remove("show");
+  toast("JALNYAY AI has been installed successfully.");
+});
+
+if("serviceWorker" in navigator && location.protocol!=="file:"){
+  window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js"));
+}
+
+</script>
+
+</body>
+</html>
